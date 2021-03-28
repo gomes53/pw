@@ -1,37 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script>
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/capDressVal";
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            printJ(myArr);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+
+    //Adds the dresses to the list
+    function printJ(json){
+      var ul = document.getElementById("list");
+      for(let i = 0; i < json.length; i++) {
+        let li = document.createElement("li");
+        let target = document.createElement("h4");
+        target.innerHTML = json[i].target;
+        let captions = document.createElement("p");
+        captions.innerHTML = json[i].captions;
+        // let img = document.createElement("img");
+
+        // var xmlhtt = new XMLHttpRequest();
+        // var ur = "/getPhoto/"+json[i].target;
+
+        // xmlhtt.onreadystatechange = function() {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //       img.setAttribute('src',this.responseText);
+        //     }
+        // };
+        // xmlhtt.open("GET", ur, true);
+        // xmlhtt.send();
+
+        // img.setAttribute('src','/getPhoto/'+json[i].target);
+        
+        let img = reqPhoto(json[i].target);
+
+        li.appendChild(target);
+        li.appendChild(captions);
+        li.appendChild(img);
+        ul.appendChild(li);
+      }
+    }
+
+    //Requests a photo and returns the img element
+    function reqPhoto(id){
+      let img = document.createElement("img");
+      var xmlreq = new XMLHttpRequest();
+      var u = "/getPhoto/"+id;
+      xmlreq.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            img.setAttribute('src',this.responseText);
+          }
+      };
+      xmlreq.open("GET", u, true);
+      xmlreq.send();
+      return img;
+    }
+  </script>
 </head>
  <body>
    <h1 class="logo">Results</h1>
-
-   
-   
-
-    <ul>
-    {% for data in data %}
-    <li>{{data.target}}</li>
-    <script>
-    var srcFoto;
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        srcFoto = xhttp.responseText;
-        document.getElementById("id").src = srcFoto;
-    }
-    };
-    
-    var str = "";
-    const js = JSON.parse({{data|tojson}});
-    console.log(js);
-    xhttp.open("GET", "getPhoto/" + str, true);
-    xhttp.send();
-    </script>
-    <img id="id">
-    <li>{{data.candidate}}</li>
-    <li>{{data.captions}}</li>
-    {% endfor %}
-   </ul> 
-
+   <ul id="list"></ul>
  </body>
 </html>

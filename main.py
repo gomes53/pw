@@ -23,6 +23,10 @@ def details():
 #     with open("cap.dress.val.json") as json_file:
 #         return json.load(json_file)
 
+# def get_json():
+#     with open("./cap.dress.val.json") as json_file:
+#         return json_file.read()
+@app.route("/capDressVal")
 def get_json():
     with open("./cap.dress.val.json") as json_file:
         return json_file.read()
@@ -39,7 +43,8 @@ def getPhoto(name):
             reader = csv.reader(file)
             for row in reader:
                 if (row[0].split(" ; ")[0] == str(name)):
-                    return(row[0].split(" ; ")[1])
+                    print(str(row[0].split(" ; ")[1]))
+                    return(str(row[0].split(" ; ")[1]))
 
 
 
