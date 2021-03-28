@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import request
 from flask import render_template
+import json
+import csv
 
 app = Flask(__name__)
 
@@ -16,6 +18,30 @@ def shop():
 @app.route("/product_details.html")
 def details():
     return render_template('/product_details.html')
+
+# def get_json():
+#     with open("cap.dress.val.json") as json_file:
+#         return json.load(json_file)
+
+def get_json():
+    with open("./cap.dress.val.json") as json_file:
+        return json_file.read()
+
+
+@app.route("/test")
+def test():
+    data = get_json()
+    return render_template('test.html', data = json.dumps(data))
+
+@app.route("/getPhoto/<name>")
+def getPhoto(name):
+    with open('data.csv', 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                if (row[0].split(" ; ")[0] == str(name)):
+                    return(row[0].split(" ; ")[1])
+
+
 
 
 if __name__ == "__main__":

@@ -1,0 +1,26 @@
+[
+    {
+        "target": "B0084Y8XIU",
+        "candidate": "B005X4PL1G",
+        "captions": [
+            "is shiny and silver with shorter sleeves",
+            "fit and flare"
+        ]
+    },
+    {
+        "target": "B00AKLK08G",
+        "candidate": "B008XODTD0",
+        "captions": [
+            "is grey with black design",
+            "is a light printed short dress"
+        ]
+    },
+    {
+        "target": "B00CMPE0C0",
+        "candidate": "B00BPYP69K",
+        "captions": [
+            "is a solid red color",
+            "shorter and tighter with more blue and white"
+        ]
+    }
+]

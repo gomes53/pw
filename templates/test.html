@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+ <body>
+   <h1 class="logo">Results</h1>
+
+   
+   
+
+    <ul>
+    {% for data in data %}
+    <li>{{data.target}}</li>
+    <script>
+    var srcFoto;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        srcFoto = xhttp.responseText;
+        document.getElementById("id").src = srcFoto;
+    }
+    };
+    
+    var str = "";
+    const js = JSON.parse({{data|tojson}});
+    console.log(js);
+    xhttp.open("GET", "getPhoto/" + str, true);
+    xhttp.send();
+    </script>
+    <img id="id">
+    <li>{{data.candidate}}</li>
+    <li>{{data.captions}}</li>
+    {% endfor %}
+   </ul> 
+
+ </body>
+</html>
