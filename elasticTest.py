@@ -7,7 +7,7 @@ es = Elasticsearch()
 #     'text': 'Elasticsearch: cool. bonsai cool.',
 #     'timestamp': datetime.now(),
 # }
-doc = {"foos" : [{
+doc = {
  "color": "", 
  "taxonomy": "Clothing & Accessories/Women/Ethnic Wear/Lehenga Cholis/Pink with Orange Net lehenga choli", 
  "site": "IN_amazon", 
@@ -55,60 +55,7 @@ doc = {"foos" : [{
  "avgStars": [], 
  "image_url": "http://ecx.images-amazon.com/images/I/51kpVddAIML.jpg", 
  "sleeves": ""
-},
-{
- "color": "", 
- "taxonomy": "Computers & Accessories/Accessories & Peripherals/Laptop Accessories/Bags & Sleeves/Laptop Briefcases/Case Logic 15.4\" Slimline Case NCR - 15 Black Caselogic", 
- "site": "IN_amazon", 
- "currency": "INR", 
- "available_sizes": [], 
- "id": "B000EPFG5U", 
- "image_filename": "http://ecx.images-amazon.com/images/I/41tEnK%2Be1fL.jpg", 
- "style": "", 
- "fit": "", 
- "bestSellerRank": "", 
- "image_type": "look", 
- "review": [
-  "Good bag.", 
-  "Could not make out color while ordering. It is more green than expected;", 
-  "Inside pouch re not useful for credit card,business card keeping... :-(", 
-  "Great buy. Am very happy. Thank you!"
- ], 
- "name": "Case Logic 15.4\" Slimline Case NCR - 15 Black Caselogic", 
- "details": [
-  "holds all the netbooks upto 15.4 inches", 
-  "Slimline Case features Padded", 
-  " ergonomically designed shoulder strap", 
-  "reinforced carrying handle for exceptional comfort"
- ], 
- "image_filename_all": {
-  "front": [], 
-  "right": [], 
-  "look": [
-   "http://ecx.images-amazon.com/images/I/41tEnK%2Be1fL.jpg"
-  ], 
-  "back": [], 
-  "left": []
- }, 
- "type": "", 
- "price": 1500.0, 
- "brand": "Case Logic", 
- "material": "Thick foam padding and durable material", 
- "similar_items": [], 
- "reviewStars": [
-  "3.0 out of 5 stars", 
-  "4.0 out of 5 stars"
- ], 
- "model_worn": "yes", 
- "care": "", 
- "neck": "", 
- "url": "http://www.amazon.in/Case-Logic-15-4-Slimline-NCR/dp/B000EPFG5U", 
- "gender": "all", 
- "length": "", 
- "avgStars": [], 
- "image_url": "http://ecx.images-amazon.com/images/I/41tEnK%2Be1fL.jpg", 
- "sleeves": ""
-}]}
+}
 res = es.index(index="test-index", id=1, body=doc)
 #print(res['result'])
 #print("helloWorld")
@@ -119,7 +66,7 @@ res = es.get(index="test-index", id=1)
 es.indices.refresh(index="test-index")
 
 #res = es.search(index="test-index", body={"query": {"match_all": {}}})
-res = es.search(index="test-index", body={"query": {"match": {"foos" : {"taxonomy" : "orange"} }}})
+res = es.search(index="test-index", body={"query": {"match": {"taxonomy" : "orange" }}})
 print("Got %d Hits:" % res['hits']['total']['value'])
 for hit in res['hits']['hits']:
     print("%(image_filename)s %(brand)s: %(price)s" % hit["_source"])
