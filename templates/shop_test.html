@@ -1,0 +1,268 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Fashion | Teamplate</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="site.webmanifest">
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',    filename='img/favicon.ico') }}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/slicknav.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/flaticon.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/progressbar_barfiller.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/gijgo.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/animate.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/animated-headline.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/magnific-popup.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/fontawesome-all.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/themify-icons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/slick.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/nice-select.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/style.css') }}">
+
+<script>
+  var xmlhttp = new XMLHttpRequest();
+  var id = window.location.href.split("/shop/")[1];
+  var url = "/products/" + id;
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          printJ(myArr);
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+
+
+  var productList = "";
+  //Adds the dresses to the list
+  function printJ(json){
+    //var ul = document.getElementById("list");
+    console.log(json);
+    console.log(json.products);
+    for(let i = 0; i < json.products.length; i++) {
+      var product = json.products[i];
+      var prodHTML = createProduct(product);
+      productList += prodHTML;
+      
+
+
+    }
+    console.log(productList);
+    document.getElementById("productList").innerHTML = productList;
+  }
+
+
+    function createProduct(product)  {
+      var elastic_id = product._id
+      var brand = product._source.brand;
+      var gender = product._source.gender;
+      var image = product._source.image_filename;
+      var name = product._source.name;
+      var price = product._source.price;
+      
+      return ("<div class=\"col-xl-4 col-lg-4 col-md-6 col-sm-6\">\n"+
+"<div class=\"single-new-arrival mb-50 text-center\">\n"+
+"<div class=\"popular-img\">\n"+
+"<img id = img0  src=\"" + image + "\" alt=\"\">\n"+
+"<div class=\"favorit-items\">\n"+
+"<img src=\"{{ url_for('static',    filename='img/gallery/favorit-card.png') }}\" alt=\"\">\n"+
+"</div>\n"+
+"</div>\n"+
+"<div class=\"popular-caption\">\n"+
+"<h3><a id = name0 href=\"product_details.html\">" + name + "</a></h3>\n"+
+"<div class=\"rating mb-10\">\n"+
+"<i class=\"fas fa-star\"></i>\n"+
+"<i class=\"fas fa-star\"></i>\n"+
+"<i class=\"fas fa-star\"></i>\n"+
+"<i class=\"fas fa-star\"></i>\n"+
+"<i class=\"fas fa-star\"></i>\n"+
+"</div>\n"+
+"<span id = price0 >" + price + " €" + "</span>\n"+
+"</div>\n"+
+"</div>\n"+
+"</div>\n");
+
+
+
+    }
+
+</script>
+</head>
+<body class="full-wrapper">
+
+<div id="preloader-active">
+<div class="preloader d-flex align-items-center justify-content-center">
+<div class="preloader-inner position-relative">
+<div class="preloader-circle"></div>
+<div class="preloader-img pere-text">
+<img src="{{ url_for('static',    filename='img/logo/loder.png') }}" alt="">
+</div>
+</div>
+</div>
+</div>
+
+<main>
+
+<div class="category-area">
+<div class="container">
+<div class="row">
+<div class="col-xl-7 col-lg-8 col-md-10">
+<div class="section-tittle mb-50">
+<h2>Shop with us</h2>
+</div>
+</div>
+</div>
+<div class="row">
+
+<div class="col-xl-3 col-lg-3 col-md-4 ">
+
+<div class="category-listing mb-50">
+
+<div class="single-listing">
+
+<div class="select-job-items2">
+<select name="select2">
+<option value="">Category</option>
+<option value="">Shat</option>
+<option value="">T-shart</option>
+<option value="">Pent</option>
+<option value="">Dress</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select3">
+<option value="">Type</option>
+<option value="">SM</option>
+<option value="">LG</option>
+<option value="">XL</option>
+<option value="">XXL</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select4">
+<option value="">Size</option>
+<option value="">1.2ft</option>
+<option value="">2.5ft</option>
+<option value="">5.2ft</option>
+<option value="">3.2ft</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select5">
+<option value="">Color</option>
+<option value="">Whit</option>
+<option value="">Green</option>
+<option value="">Blue</option>
+<option value="">Sky Blue</option>
+<option value="">Gray</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select6">
+<option value="">Price range</option>
+<option value="">$10 to $20</option>
+<option value="">$20 to $30</option>
+<option value="">$50 to $80</option>
+<option value="">$100 to $120</option>
+<option value="">$200 to $300</option>
+<option value="">$500 to $600</option>
+</select>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="col-xl-9 col-lg-9 col-md-8 ">
+<div class="new-arrival new-arrival2">
+<div class="row">
+<div id="productList"></div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<div class="search-model-box">
+<div class="h-100 d-flex align-items-center justify-content-center">
+<div class="search-close-btn">+</div>
+<form class="search-model-form">
+<input type="text" id="search-input" placeholder="Searching key.....">
+</form>
+</div>
+</div>
+
+
+<div id="back-top">
+<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+
+<script src="{{ url_for('static',    filename='js/vendor/modernizr-3.5.0.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/vendor/jquery-1.12.4.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/bootstrap.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/slick.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.slicknav.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/wow.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/animated.headline.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.magnific-popup.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/gijgo.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.sticky.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.barfiller.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/jquery.counterup.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/waypoints.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.countdown.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/hover-direction-snake.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/contact.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.form.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.validate.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/mail-script.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.ajaxchimp.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/plugins.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/main.js') }}"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-23581568-13');
+</script>
+</body>
+</html>

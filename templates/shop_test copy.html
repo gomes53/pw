@@ -1,0 +1,498 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Fashion | Teamplate</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="site.webmanifest">
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',    filename='img/favicon.ico') }}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/slicknav.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/flaticon.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/progressbar_barfiller.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/gijgo.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/animate.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/animated-headline.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/magnific-popup.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/fontawesome-all.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/themify-icons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/slick.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/nice-select.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',    filename='css/style.css') }}">
+
+<script>
+  var xmlhttp = new XMLHttpRequest();
+  var id = window.location.href.split("/shop/")[1];
+  var url = "/products/" + id;
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          printJ(myArr);
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+
+  //Adds the dresses to the list
+  function printJ(json){
+    //var ul = document.getElementById("list");
+    console.log(json);
+    console.log(json.products);
+    for(let i = 0; i < json.products.length; i++) {
+      var product = json.products[i];
+      var elastic_id = product._id
+      var brand = product._source.brand;
+      var gender = product._source.gender;
+      var image = product._source.image_filename;
+      var name = product._source.name;
+      var price = product._source.price;
+      var id = i;
+      
+      document.getElementById("img" + id).src = image;
+      document.getElementById("name" + id).innerHTML = name;
+
+
+
+      // let li = document.createElement("li");
+      // let target = document.createElement("h4");
+      // target.innerHTML = json[i].target;
+      // let captions = document.createElement("p");
+      // captions.innerHTML = json[i].captions;
+      // // let img = document.createElement("img");
+
+      // // var xmlhtt = new XMLHttpRequest();
+      // // var ur = "/getPhoto/"+json[i].target;
+
+      // // xmlhtt.onreadystatechange = function() {
+      // //     if (this.readyState == 4 && this.status == 200) {
+      // //       img.setAttribute('src',this.responseText);
+      // //     }
+      // // };
+      // // xmlhtt.open("GET", ur, true);
+      // // xmlhtt.send();
+
+      // // img.setAttribute('src','/getPhoto/'+json[i].target);
+      
+      // let img = reqPhoto(json[i].target);
+
+      // li.appendChild(target);
+      // li.appendChild(captions);
+      // li.appendChild(img);
+      // ul.appendChild(li);
+    }
+  }
+
+  // //Faz pedido ao BE com offset = nr da dezena
+  // function reqProducts(offset) {
+  //   let img = document.createElement("img");
+  //   var xmlreq = new XMLHttpRequest();
+  //   var u = "/getPhoto/"+id;
+  //   xmlreq.onreadystatechange = function() {
+  //       if (this.readyState == 4 && this.status == 200) {
+  //         img.setAttribute('src',this.responseText);
+  //       }
+  //   };
+  //   xmlreq.open("GET", u, true);
+  //   xmlreq.send();
+  //   return img;
+  // }
+</script>
+</head>
+<body class="full-wrapper">
+
+<div id="preloader-active">
+<div class="preloader d-flex align-items-center justify-content-center">
+<div class="preloader-inner position-relative">
+<div class="preloader-circle"></div>
+<div class="preloader-img pere-text">
+<img src="{{ url_for('static',    filename='img/logo/loder.png') }}" alt="">
+</div>
+</div>
+</div>
+</div>
+
+<main>
+
+<div class="category-area">
+<div class="container">
+<div class="row">
+<div class="col-xl-7 col-lg-8 col-md-10">
+<div class="section-tittle mb-50">
+<h2>Shop with us</h2>
+</div>
+</div>
+</div>
+<div class="row">
+
+<div class="col-xl-3 col-lg-3 col-md-4 ">
+
+<div class="category-listing mb-50">
+
+<div class="single-listing">
+
+<div class="select-job-items2">
+<select name="select2">
+<option value="">Category</option>
+<option value="">Shat</option>
+<option value="">T-shart</option>
+<option value="">Pent</option>
+<option value="">Dress</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select3">
+<option value="">Type</option>
+<option value="">SM</option>
+<option value="">LG</option>
+<option value="">XL</option>
+<option value="">XXL</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select4">
+<option value="">Size</option>
+<option value="">1.2ft</option>
+<option value="">2.5ft</option>
+<option value="">5.2ft</option>
+<option value="">3.2ft</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select5">
+<option value="">Color</option>
+<option value="">Whit</option>
+<option value="">Green</option>
+<option value="">Blue</option>
+<option value="">Sky Blue</option>
+<option value="">Gray</option>
+</select>
+</div>
+
+
+<div class="select-job-items2">
+<select name="select6">
+<option value="">Price range</option>
+<option value="">$10 to $20</option>
+<option value="">$20 to $30</option>
+<option value="">$50 to $80</option>
+<option value="">$100 to $120</option>
+<option value="">$200 to $300</option>
+<option value="">$500 to $600</option>
+</select>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="col-xl-9 col-lg-9 col-md-8 ">
+
+<div class="new-arrival new-arrival2">
+<div class="row">
+
+  
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img0  src="{{ url_for('static',    filename='img/gallery/arrival2.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name0 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price0 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img1 src="{{ url_for('static',    filename='img/gallery/arrival3.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name1 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price1 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img2 src="{{ url_for('static',    filename='img/gallery/arrival4.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name2 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price2 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl43 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img3 src="{{ url_for('static',    filename='img/gallery/arrival5.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name3 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price3 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img4 src="{{ url_for('static',    filename='img/gallery/arrival6.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name4 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price4 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img5 src="{{ url_for('static',    filename='img/gallery/arrival7.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name5 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price5 >$ 30.00</span>
+</div>
+</div>
+</div>
+<div class="col-xl43 col-lg-4 col-md-6 col-sm-6">
+  <div class="single-new-arrival mb-50 text-center">
+  <div class="popular-img">
+  <img id = img6 src="{{ url_for('static',    filename='img/gallery/arrival5.png') }}" alt="">
+  <div class="favorit-items">
+  
+  <img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+  </div>
+  </div>
+  <div class="popular-caption">
+  <h3><a id = name6 href="product_details.html">Knitted Jumper</a></h3>
+  <div class="rating mb-10">
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  </div>
+  <span id = price6 >$ 30.00</span>
+  </div>
+  </div>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+  <div class="single-new-arrival mb-50 text-center">
+  <div class="popular-img">
+  <img id = img7 src="{{ url_for('static',    filename='img/gallery/arrival6.png') }}" alt="">
+  <div class="favorit-items">
+  
+  <img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+  </div>
+  </div>
+  <div class="popular-caption">
+  <h3><a id = name7 href="product_details.html">Knitted Jumper</a></h3>
+  <div class="rating mb-10">
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  </div>
+  <span id = price7 >$ 30.00</span>
+  </div>
+  </div>
+  </div>
+  <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+  <div class="single-new-arrival mb-50 text-center">
+  <div class="popular-img">
+  <img id = img8 src="{{ url_for('static',    filename='img/gallery/arrival7.png') }}" alt="">
+  <div class="favorit-items">
+  
+  <img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+  </div>
+  </div>
+  <div class="popular-caption">
+  <h3><a id = name8 href="product_details.html">Knitted Jumper</a></h3>
+  <div class="rating mb-10">
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  <i class="fas fa-star"></i>
+  </div>
+  <span id = price8 >$ 30.00</span>
+  </div>
+  </div>
+  </div>
+<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+<div class="single-new-arrival mb-50 text-center">
+<div class="popular-img">
+<img id = img9 src="{{ url_for('static',    filename='img/gallery/arrival8.png') }}" alt="">
+<div class="favorit-items">
+
+<img src="{{ url_for('static',    filename='img/gallery/favorit-card.png') }}" alt="">
+</div>
+</div>
+<div class="popular-caption">
+<h3><a id = name9 href="product_details.html">Knitted Jumper</a></h3>
+<div class="rating mb-10">
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+</div>
+<span id = price9 >$ 30.00</span>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+</main>
+
+<div class="search-model-box">
+<div class="h-100 d-flex align-items-center justify-content-center">
+<div class="search-close-btn">+</div>
+<form class="search-model-form">
+<input type="text" id="search-input" placeholder="Searching key.....">
+</form>
+</div>
+</div>
+
+
+<div id="back-top">
+<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+</div>
+
+
+<script src="{{ url_for('static',    filename='js/vendor/modernizr-3.5.0.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/vendor/jquery-1.12.4.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/bootstrap.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/slick.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.slicknav.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/wow.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/animated.headline.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.magnific-popup.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/gijgo.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.sticky.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.barfiller.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/jquery.counterup.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/waypoints.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.countdown.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/hover-direction-snake.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/contact.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.form.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.validate.min.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/mail-script.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/jquery.ajaxchimp.min.js') }}"></script>
+
+<script src="{{ url_for('static',    filename='js/plugins.js') }}"></script>
+<script src="{{ url_for('static',    filename='js/main.js') }}"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-23581568-13');
+</script>
+</body>
+</html>
