@@ -70,8 +70,8 @@
       
       return ("<div class=\"col-xl-4 col-lg-4 col-md-6 col-sm-6\">\n"+
 "<div class=\"single-new-arrival mb-50 text-center\">\n"+
-"<div class=\"popular-img\">\n"+
-"<img id = img0  src=\"" + image + "\" alt=\"\">\n"+
+"<div style=\"width: 264px; height: 330px; overflow: hidden;\" class=\"popular-img\">\n"+
+"<img id = img0 style=\"min-width: 100%; min-height: 100%;\" src=\"" + image + "\" alt=\"\">\n"+
 "<div class=\"favorit-items\">\n"+
 "<img src=\"{{ url_for('static',    filename='img/gallery/favorit-card.png') }}\" alt=\"\">\n"+
 "</div>\n"+
@@ -192,8 +192,7 @@
 
 <div class="col-xl-9 col-lg-9 col-md-8 ">
 <div class="new-arrival new-arrival2">
-<div class="row">
-<div id="productList"></div>
+<div id="productList" class="row">
 
 
 </div>
