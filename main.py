@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask import request
 from flask import render_template
 import json
 import csv
 import requests
+from elasticsearch import Elasticsearch
 
+es = Elasticsearch()
 app = Flask(__name__)
 
 
@@ -57,8 +59,30 @@ def getProductsOffset(offset):
         results["products"].append(r.json())
     return results
 
-# @app.route("/products/<filter>")
-# def getProductsFilter(filter):
+@app.route("/filter")
+def getProductsFilter():
+    text = request.args.get("text")
+    filter = request.args.get("filter")
+    results = {"products": []}
+
+    body = {
+        "query": {
+            "match": {
+                str(filter): str(text)
+            }
+        }
+    }
+
+    res = es.search(index="test", body=body)
+
+    for i in res["hits"]["hits"]:
+        results["products"].append(i)
+
+    print (len(results["products"]))
+
+    return jsonify(results)
+
+
 
 
 if __name__ == "__main__":
