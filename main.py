@@ -68,7 +68,7 @@ def getProductsFilter():
     body = {
         "query": {
             "match": {
-                str(filter): str(text)
+                str(filter) : str(text)
             }
         }
     }
