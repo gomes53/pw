@@ -216,14 +216,31 @@
 </form>
 </div>
 </div>
+
 <div style = "text-align: center; padding-bottom: 100px;">
-  <img style = "display: inline-block; margin-left: auto; margin-right: auto; height: 50px; transform: rotate(180deg); " src="{{ url_for('static',    filename='img/icon/arrow.png') }}" alt="">
-  <img style = "display: inline-block; margin-left: auto; margin-right: auto; height: 50px;" src="{{ url_for('static',    filename='img/icon/arrow.png') }}" alt="">  
-</div>
+  <a id = "back_arrow" href = "" >
+    <img style = "display: inline-block; margin-left: auto; margin-right: auto; height: 50px; transform: rotate(180deg); " src="{{ url_for('static',    filename='img/icon/arrow.png') }}" alt="">
+  </a>
+  <a id = "front_arrow" href = "" >
+    <img style = "display: inline-block; margin-left: auto; margin-right: auto; height: 50px;" src="{{ url_for('static',    filename='img/icon/arrow.png') }}" alt="">  
+  </a>
+  </div>
 <div id="back-top">
 <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
 </div>
 
+<script>
+  var pageID = window.location.href.split("/shop/")[1];
+  var next = parseInt(pageID) +1;
+  var prev = parseInt(pageID)- 1;
+  if(pageID == 1) {
+    document.getElementById("back_arrow").href = window.location.href;
+    document.getElementById("front_arrow").href = window.location.href.split("/shop/")[0] + "/shop/" + next;
+  } else {
+    document.getElementById("back_arrow").href = window.location.href.split("/shop/")[0] + "/shop/" + prev;
+    document.getElementById("front_arrow").href = window.location.href.split("/shop/")[0] + "/shop/" + next;
+  }
+</script>
 
 <script src="{{ url_for('static',    filename='js/vendor/modernizr-3.5.0.min.js') }}"></script>
 <script src="{{ url_for('static',    filename='js/vendor/jquery-1.12.4.min.js') }}"></script>
