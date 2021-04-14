@@ -48,13 +48,13 @@ def test():
 #                     print(str(row[0].split(" ; ")[1]))
 #                     return(str(row[0].split(" ; ")[1]))
 
-@app.route("/products/<offset>")
-def getProductsOffset(offset):
+@app.route("/products/<type>/<offset>")
+def getProductsOffset(offset,type):
     results = {"products":[]}
     off = int(offset)
     headers = {'Content-type': 'application/json'}
     for i in range((off-1)*10, off*10):
-        r = requests.get("http://localhost:9200/test/_doc/"+str(i), headers = headers)
+        r = requests.get("http://localhost:9200/"+ type +"/_doc/"+str(i), headers = headers)
         # print(r.text)
         results["products"].append(r.json())
     return results
