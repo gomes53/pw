@@ -59,10 +59,10 @@ def getProductsOffset(offset,type):
         results["products"].append(r.json())
     return results
 
-@app.route("/filter")
-def getProductsFilter():
-    text = request.args.get("text")
-    filter = request.args.get("filter")
+@app.route("/filter/<currentIndex>/<filter>/<text>")
+def getProductsFilter(currentIndex, filter, text):
+    # text = request.args.get("text")
+    # filter = request.args.get("filter")
     results = {"products": []}
 
     body = {
@@ -73,7 +73,7 @@ def getProductsFilter():
         }
     }
 
-    res = es.search(index="test", body=body)
+    res = es.search(index= currentIndex, body=body)
 
     for i in res["hits"]["hits"]:
         results["products"].append(i)
