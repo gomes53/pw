@@ -126,11 +126,22 @@
 
   function useFilter()  {
   //filter/<currentIndex>&filter=taxonomy&text=red
-  var filterSearch = "";
+  var filterSearch = "http://localhost:5000/filter/" + type + "/taxonomy/";
   document.getElementById("productList").innerHTML = "";
   
   var color = document.getElementById("color").value;
-  if (color != "") filterSearch = "http://localhost:5000/filter/" + type + "/" + "taxonomy" + "/" + color
+  var price = document.getElementById("price").value;
+  if (price != "" && color == "")  {
+      filterSearch += "empty/" + price;
+  }
+  if (color != "" && price == "") {
+    filterSearch += color + "/1/1000000";
+  }
+  if (color != "" && price != "") {
+    filterSearch += color + "/" + price;
+  }
+
+
   xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
           var myArr = JSON.parse(this.responseText);
@@ -184,28 +195,13 @@
     </input>
   </div>
   <div class="select-job-items2">
-    <input id = "price" class="input-cat" placeholder="Price">
+    <input id = "price" class="input-cat" placeholder="Price (min/max)">
     </input>
   </div>
-  <div class="select-job-items2">
-    <input id = "gender" class="input-cat" placeholder="Gender">
-    </input>
-  </div>
-  <div class="select-job-items2">
+  <!-- <div class="select-job-items2">
     <input id = "brand" class="input-cat" placeholder="Brand">
     </input>
-  </div>
-  <div class="select-job-items2">
-    <select name="select6">
-    <option value="">Max Price</option>
-    <option value="">$10</option>
-    <option value="">$20</option>
-    <option value="">$50</option>
-    <option value="">$100</option>
-    <option value="">$200</option>
-    <option value="">$500</option>
-    </select>
-  </div>
+  </div> -->
   <div class="select-job-items2">
     <button type="button" class="button-cat" onclick="useFilter()">
       Search

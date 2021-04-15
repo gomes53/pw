@@ -59,19 +59,49 @@ def getProductsOffset(offset,type):
         results["products"].append(r.json())
     return results
 
-@app.route("/filter/<currentIndex>/<filter>/<text>")
-def getProductsFilter(currentIndex, filter, text):
+@app.route("/filter/<currentIndex>/<filter>/<text>/<minPrice>/<maxPrice>")
+def getProductsFilter(currentIndex, filter, text, minPrice, maxPrice):
     # text = request.args.get("text")
     # filter = request.args.get("filter")
     results = {"products": []}
 
-    body = {
-        "query": {
-            "match": {
-                str(filter) : str(text)
+    if (text == "empty"):
+        body = {
+            "query": {
+                "range": 
+                {
+                            "price": {
+                                "gte": str(minPrice),
+                                "lte": str(maxPrice)
+                            }
+                }
             }
         }
-    }
+    else:
+        body = {
+            "query": {
+                "bool": {
+                    "must": [
+                    {
+                        "range": {
+                            "price": {
+                                "gte": str(minPrice),
+                                "lte": str(maxPrice)
+                            }
+                        }
+                    },
+                    {
+                        "match": {
+                            str(filter) : str(text)
+                        }
+                    }
+                    ]
+                }
+            }
+        }
+    
+
+
 
     res = es.search(index= currentIndex, body=body)
 
@@ -81,6 +111,9 @@ def getProductsFilter(currentIndex, filter, text):
     print (len(results["products"]))
 
     return jsonify(results)
+
+
+
 
 
 
