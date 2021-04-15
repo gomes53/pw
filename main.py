@@ -14,8 +14,8 @@ app = Flask(__name__)
 def index():
     return render_template('/index.html')
 
-@app.route("/shop/<offset>")
-def shop(offset):
+@app.route("/shop/<type>/<offset>")
+def shop(offset, type):
     return render_template('/shop_test.html')
 
 @app.route("/product_details.html")
