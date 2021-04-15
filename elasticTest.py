@@ -56,17 +56,17 @@ doc = {
  "image_url": "http://ecx.images-amazon.com/images/I/51kpVddAIML.jpg", 
  "sleeves": ""
 }
-res = es.index(index="test-index", id=1, body=doc)
+res = es.index(index="test-indeces", id=3, body=doc)
 #print(res['result'])
 #print("helloWorld")
 
-res = es.get(index="test-index", id=1)
-#print(res['_source'])
+# res = es.get(index="test-index", id=1)
+# #print(res['_source'])
 
-es.indices.refresh(index="test-index")
+# es.indices.refresh(index="test-index")
 
-#res = es.search(index="test-index", body={"query": {"match_all": {}}})
-res = es.search(index="test-index", body={"query": {"match": {"taxonomy" : "orange" }}})
-print("Got %d Hits:" % res['hits']['total']['value'])
-for hit in res['hits']['hits']:
-    print("%(image_filename)s %(brand)s: %(price)s" % hit["_source"])
+# #res = es.search(index="test-index", body={"query": {"match_all": {}}})
+# res = es.search(index="test-index", body={"query": {"match": {"taxonomy" : "orange" }}})
+# print("Got %d Hits:" % res['hits']['total']['value'])
+# for hit in res['hits']['hits']:
+#     print("%(image_filename)s %(brand)s: %(price)s" % hit["_source"])
