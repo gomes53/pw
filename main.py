@@ -59,6 +59,19 @@ def getProductsOffset(offset,type):
         results["products"].append(r.json())
     return results
 
+@app.route("/refine/<currentIndex>/<filter>")
+def refineSearch(currentIndex,filter):
+    filter1 = request.args.get('f1')
+    filter2 = request.args.get('f2')
+    filter3 = request.args.get('f3')
+    print(filter1)
+    print(filter2)
+    print(filter3)
+    return ""
+
+
+
+#example: filter/dresses/taxonomy/red/0/1000
 @app.route("/filter/<currentIndex>/<filter>/<text>/<minPrice>/<maxPrice>")
 def getProductsFilter(currentIndex, filter, text, minPrice, maxPrice):
     # text = request.args.get("text")
