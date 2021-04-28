@@ -181,19 +181,26 @@
 
   function refineFilter(){
     //call function refine/type/taxonomy?f1=filtro1&f2=filtro2&f3=filtro3
-    if(favsList.length >= 3)  {
-      var refiner = "http://localhost:5000/refine/" + type + "/taxonomy?f1=" + favsList[0].toString() + "&f2=" + favsList[1].toString() + "&f3=" + favsList[2].toString();
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var myArr = JSON.parse(this.responseText);
-            printJ(myArr);
-        }
-      };
-      xmlhttp.open("GET", refiner, true);
-      xmlhttp.send();
-    } else {
+    if(favsList.length < 3)  {
       alert("Selecione pelo menos 3 produtos")
+      return
     }
+
+    var refiner = "http://localhost:5000/refine/" + type + "/taxonomy";
+    for (let i = 0; i < favsList.length; i++) {
+      _char = i > 0 ? '&' : '?';
+      refiner += _char + "f" + i + "=" + favsList[i].toString();
+    }
+
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          printJ(myArr);
+      }
+    };
+    xmlhttp.open("GET", refiner, true);
+    xmlhttp.send();
+    
   }
 
 //******************************************************************************************************
@@ -261,10 +268,6 @@
     <input id = "price" class="input-cat" placeholder="Price (min/max)">
     </input>
   </div>
-  <!-- <div class="select-job-items2">
-    <input id = "brand" class="input-cat" placeholder="Brand">
-    </input>
-  </div> -->
   <div class="select-job-items2">
     <button type="button" class="button-cat" onclick="useFilter()">
       Search
@@ -284,7 +287,6 @@
 <div class="col-xl-9 col-lg-9 col-md-8 ">
 <div class="new-arrival new-arrival2">
 <div id="productList" class="row">
-
 
 </div>
 </div>
