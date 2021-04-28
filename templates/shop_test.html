@@ -181,8 +181,19 @@
 
   function refineFilter(){
     //call function refine/type/taxonomy?f1=filtro1&f2=filtro2&f3=filtro3
-    //TODO
-    //use the array 'favsList' to get the elastic id of the favorite items
+    if(favsList.length >= 3)  {
+      var refiner = "http://localhost:5000/refine/" + type + "/taxonomy?f1=" + favsList[0].toString() + "&f2=" + favsList[1].toString() + "&f3=" + favsList[2].toString();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var myArr = JSON.parse(this.responseText);
+            printJ(myArr);
+        }
+      };
+      xmlhttp.open("GET", refiner, true);
+      xmlhttp.send();
+    } else {
+      alert("Selecione pelo menos 3 produtos")
+    }
   }
 
 //******************************************************************************************************

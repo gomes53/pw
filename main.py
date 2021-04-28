@@ -61,13 +61,28 @@ def getProductsOffset(offset,type):
 
 @app.route("/refine/<currentIndex>/<filter>")
 def refineSearch(currentIndex,filter):
-    filter1 = request.args.get('f1')
-    filter2 = request.args.get('f2')
-    filter3 = request.args.get('f3')
-    print(filter1)
-    print(filter2)
-    print(filter3)
-    return ""
+    headers = {'Content-type': 'application/json'}
+    taxList = []
+    ids = []
+    id1 = request.args.get('f1')
+    id2 = request.args.get('f2')
+    id3 = request.args.get('f3')
+    ids.append(id1)
+    ids.append(id2)
+    ids.append(id3)
+
+
+    
+    for i in range(3):
+        id = ids[i]
+        req = requests.get('http://localhost:9200/'+currentIndex+'/_doc/'+id, headers = headers)
+        js = json.loads(req.text)
+        taxonomy = js["_source"]["taxonomy"]
+        taxList.append(taxonomy)
+
+    for t in taxList:
+        print (t)
+    return getProductsFilter(currentIndex, filter, "red", 0, 10000)
 
 
 
@@ -121,7 +136,7 @@ def getProductsFilter(currentIndex, filter, text, minPrice, maxPrice):
     for i in res["hits"]["hits"]:
         results["products"].append(i)
 
-    print (len(results["products"]))
+    #print (len(results["products"]))
 
     return jsonify(results)
 
