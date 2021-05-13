@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask import request
 from flask import render_template
 from elasticsearch import Elasticsearch
-import gensim.downloader as api
+# import gensim.downloader as api
 import json
 import csv
 import sys
@@ -13,7 +13,7 @@ import requests
 es = Elasticsearch()
 app = Flask(__name__)
 
-wv = api.load('word2vec-google-news-300')
+# wv = api.load('word2vec-google-news-300')
 
 dictionary = open("dictionary.txt", "r").read().split("\n")
 
@@ -40,7 +40,6 @@ def getProductsOffset(offset,type):
     headers = {'Content-type': 'application/json'}
     for i in range((off-1)*10, off*10):
         r = requests.get("http://localhost:9200/"+ type +"/_doc/"+str(i), headers = headers)
-        # print(r.text)
         results["products"].append(r.json())
     return results
 
@@ -132,21 +131,21 @@ O método transforma a string num array de strings
 retorna um json com todas as palavras contidas no dicionário que se relacionam com 
 esse conjunto de palavras e contenham um score acima de um valor
 """
-@app.route("/filter/searchBar/<search>")
-def w2vecEx (search):
-    results = {"products": []}
+# @app.route("/filter/searchBar/<search>")
+# def w2vecEx (search):
+#     results = {"products": []}
 
-    searchVector = search.split()
+#     searchVector = search.split()
 
-    top = wv.most_similar(positive=searchVector, topn=30)
+#     top = wv.most_similar(positive=searchVector, topn=30)
 
-    for i in top:
-        if i[0] in dictionary and i[1] > 0.4:
-            results["products"].append(i[0])
-        else:
-            pass
+#     for i in top:
+#         if i[0] in dictionary and i[1] > 0.4:
+#             results["products"].append(i[0])
+#         else:
+#             pass
 
-    return jsonify(results)
+#     return jsonify(results)
 
 
 @app.route("/testing/example")
