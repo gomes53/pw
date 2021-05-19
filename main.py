@@ -48,8 +48,11 @@ def refineSearch(currentIndex,filter):
     headers = {'Content-type': 'application/json'}
     taxList = []
     ids = []
+    prevQuery = request.args.get("f"+str(0))
+    print(prevQuery)
     for i in range(1,len(request.args)):
         ids.append(request.args.get("f"+str(i)))
+        print(i)
     
     unwanted_chars = ".,-&"
     wordfreq = {}
@@ -72,12 +75,16 @@ def refineSearch(currentIndex,filter):
     for i in range(1,3):
         queryWords.append(list(orderedDict.items())[-i][0])
     
-    return getProductsFilter(currentIndex, filter, " ".join(queryWords), 0, 10000)
+    newQuery = " ".join(queryWords)
+    print(prevQuery + " " + newQuery)
+
+    return getProductsFilter(currentIndex, filter, prevQuery, newQuery, 0, 10000)
 
 #example: filter/dresses/taxonomy/red/0/1000
-@app.route("/filter/<currentIndex>/<filter>/<text>/<minPrice>/<maxPrice>")
-def getProductsFilter(currentIndex, filter, text, minPrice, maxPrice):
+@app.route("/filter/<currentIndex>/<filter>/<text>/<boostedText>/<minPrice>/<maxPrice>")
+def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPrice):
     results = {"products": []}
+    print("boostedtext "+boostedText)
 
     if (text == "empty"):
         body = {
@@ -95,21 +102,31 @@ def getProductsFilter(currentIndex, filter, text, minPrice, maxPrice):
         body = {
             "query": {
                 "bool": {
-                    "must": [
-                    {
-                        "range": {
-                            "price": {
-                                "gte": str(minPrice),
-                                "lte": str(maxPrice)
+                    "must":{
+                        "bool":{
+                            "should": [
+                            {
+                                "range": {
+                                    "price": {
+                                        "gte": str(minPrice),
+                                        "lte": str(maxPrice)
+                                    }
+                                }
+                            },
+                            {
+                                "match": {
+                                    str(filter) : str(text),
+                                    "boost": 2
+                                }
+                            },
+                            {
+                                "match": {
+                                    str(filter) : str(boostedText)
+                                }
                             }
-                        }
-                    },
-                    {
-                        "match": {
-                            str(filter) : str(text)
+                            ]
                         }
                     }
-                    ]
                 }
             }
         }

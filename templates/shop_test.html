@@ -158,16 +158,18 @@
     var filterSearch = "http://localhost:5000/filter/" + type + "/taxonomy/";
     document.getElementById("productList").innerHTML = "";
     
-    var color = document.getElementById("color").value;
+    var query = document.getElementById("color").value;
     var price = document.getElementById("price").value;
-    if (price != "" && color == "")  {
+    favsList = [];
+    favsList.push(query);
+    if (price != "" && query == "")  {
         filterSearch += "empty/" + price;
     }
-    if (color != "" && price == "") {
-      filterSearch += color + "/1/1000000";
+    if (query != "" && price == "") {
+      filterSearch += query + "/empty/1/1000000";
     }
-    if (color != "" && price != "") {
-      filterSearch += color + "/" + price;
+    if (query != "" && price != "") {
+      filterSearch += query + "/empty/" + price;
     }
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
