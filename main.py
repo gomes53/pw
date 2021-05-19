@@ -148,9 +148,10 @@ O método transforma a string num array de strings
 retorna um json com todas as palavras contidas no dicionário que se relacionam com 
 esse conjunto de palavras e contenham um score acima de um valor
 """
-# @app.route("/filter/searchBar/<search>")
-# def w2vecEx (search):
-#     results = {"products": []}
+
+@app.route("/filter/searchBar/<search>")
+def sugested (search):
+    results = {"products": []}
 
 #     searchVector = search.split()
 
@@ -163,6 +164,24 @@ esse conjunto de palavras e contenham um score acima de um valor
 #             pass
 
 #     return jsonify(results)
+
+"""
+Objetivo é ser utilizado para completar as pesquisas do
+utilizador, ou seja, autocomplition
+"""
+@app.route("/filter/searchBar/aux/<search>")
+def autocomplition (search):
+    results = {"products": []}
+    size = len(search)
+
+    for i in dictionary:
+        c = i[:size]
+        if c == search and i.find(search) != -1:
+            results["products"].append(i)
+        if len(results["products"]) > 10:
+            break
+
+    return jsonify(results)
 
 
 @app.route("/testing/example")

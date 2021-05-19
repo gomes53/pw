@@ -39,6 +39,6 @@ def putAll():
             temp = json.dumps(j)
             req = requests.post('http://localhost:9200/all/_doc/' + str(id), data=temp, headers=headers)
             print('http://localhost:9200/all/_doc/' + str(id))
-            id -= -1
+            id-=-1
 #putAll()
 putBytype()
