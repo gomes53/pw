@@ -2,7 +2,9 @@ from flask import Flask, jsonify
 from flask import request
 from flask import render_template
 from elasticsearch import Elasticsearch
-# import gensim.downloader as api
+from difflib import SequenceMatcher
+import gensim.downloader as api
+import numpy as np
 import json
 import csv
 import sys
@@ -16,6 +18,9 @@ app = Flask(__name__)
 # wv = api.load('word2vec-google-news-300')
 
 dictionary = open("dictionary.txt", "r").read().split("\n")
+
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 @app.route("/")
 def index():
@@ -178,8 +183,34 @@ def autocomplition (search):
         c = i[:size]
         if c == search and i.find(search) != -1:
             results["products"].append(i)
-        if len(results["products"]) > 10:
+        if len(results["products"]) > 5:
             break
+
+    return jsonify(results)
+
+"""
+O autocorrection é utilizado no final da escrita de uma palavra e 
+caso esta não esteja present no dicionário, o sistema irá sugerir as
+5 palavras com melhor score presente no dicionário
+"""
+@app.route("/filter/searchBar/correction/<search>")
+def autocorrection (string):
+    temp = []
+    results = {"products": []}
+
+    if string not in dictionary:
+        for i in dictionary:
+            ratio = similar(string, i)
+            if ratio > 0.5:
+                aux = [i, ratio]
+                temp.append(aux)
+
+        temp = np.array(temp)
+        temp.sort(axis=0)
+        for i in reversed(temp):
+            results["products"].append(i[0])
+            if results["products"] == 5:
+                break
 
     return jsonify(results)
 
