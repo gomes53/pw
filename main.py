@@ -133,7 +133,7 @@ retorna um json com todas as palavras contidas no dicionário que se relacionam 
 esse conjunto de palavras e contenham um score acima de um valor
 """
 @app.route("/filter/searchBar/<search>")
-def w2vecEx (search):
+def sugested (search):
     results = {"products": []}
 
     searchVector = search.split()
@@ -145,6 +145,22 @@ def w2vecEx (search):
             results["products"].append(i[0])
         else:
             pass
+
+    return jsonify(results)
+
+"""
+Objetivo é ser utilizado para completar as pesquisas do
+utilizador, ou seja, autocomplition
+"""
+@app.route("/filter/searchBar/aux/<search>")
+def autocomplition (search):
+    results = {"products": []}
+
+    for i in dictionary:
+        if i.find(search) != -1:
+            results["products"].append(i)
+        if len(results["products"]) > 10:
+            break
 
     return jsonify(results)
 
