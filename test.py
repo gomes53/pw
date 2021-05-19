@@ -1,10 +1,35 @@
 from difflib import SequenceMatcher
+import numpy as np
+
+dictionary = open("dictionary.txt", "r").read().split("\n")
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
+def autocorrection (string):
+    temp = []
+    res = []
+    n = []
+    if string not in dictionary:
+        for i in dictionary:
+            ratio = similar(string, i)
+            if ratio > 0.5:
+                aux = [i, ratio]
+                temp.append(aux)
+
+        temp = np.array(temp)
+        temp.sort(axis=0)
+        for i in reversed(temp):
+            res.append(i[0])
+            n.append(i[1])
+            if len(res) == 8:
+                break
+
+
+    print(res)
+    print(n)
+
 def test(string):
-    dictionary = open("dictionary.txt", "r").read().split("\n")
     size = len(string)
 
     res = []
@@ -17,4 +42,5 @@ def test(string):
 
     print(res)
 
-test("re")
+#test("re")
+autocorrection("dess")
