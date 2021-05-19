@@ -155,9 +155,11 @@ utilizador, ou seja, autocomplition
 @app.route("/filter/searchBar/aux/<search>")
 def autocomplition (search):
     results = {"products": []}
+    size = len(search)
 
     for i in dictionary:
-        if i.find(search) != -1:
+        c = i[:size]
+        if c == search and i.find(search) != -1:
             results["products"].append(i)
         if len(results["products"]) > 10:
             break
