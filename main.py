@@ -176,6 +176,8 @@ def autocomplition (search):
 O autocorrection é utilizado no final da escrita de uma palavra e 
 caso esta não esteja present no dicionário, o sistema irá sugerir as
 5 palavras com melhor score presente no dicionário
+
+
 """
 @app.route("/filter/searchBar/correction/<search>")
 def autocorrection (string):
