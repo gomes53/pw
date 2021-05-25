@@ -3,7 +3,7 @@ from flask import request
 from flask import render_template
 from elasticsearch import Elasticsearch
 from difflib import SequenceMatcher
-import gensim.downloader as api
+# import gensim.downloader as api
 import numpy as np
 import json
 import csv
@@ -19,52 +19,59 @@ app = Flask(__name__)
 
 dictionary = open("dictionary.txt", "r").read().split("\n")
 
+
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
+
 
 @app.route("/")
 def index():
     return render_template('/index.html')
 
+
 @app.route("/shop/<type>/<offset>")
 def shop(offset, type):
     return render_template('/shop_test.html')
+
 
 @app.route("/product_details.html")
 def details():
     return render_template('/product_details.html')
 
+
 @app.route("/test")
 def test():
     return render_template('test.html')
 
+
 @app.route("/products/<type>/<offset>")
-def getProductsOffset(offset,type):
-    results = {"products":[]}
+def getProductsOffset(offset, type):
+    results = {"products": []}
     off = int(offset)
     headers = {'Content-type': 'application/json'}
-    for i in range((off-1)*10, off*10):
-        r = requests.get("http://localhost:9200/"+ type +"/_doc/"+str(i), headers = headers)
+    for i in range((off - 1) * 10, off * 10):
+        r = requests.get("http://localhost:9200/" + type + "/_doc/" + str(i), headers=headers)
         results["products"].append(r.json())
     return results
 
+
 @app.route("/refine/<currentIndex>/<filter>")
-def refineSearch(currentIndex,filter):
+def refineSearch(currentIndex, filter):
     headers = {'Content-type': 'application/json'}
     taxList = []
     ids = []
-    prevQuery = request.args.get("f"+str(0))
+    prevQuery = request.args.get("f" + str(0))
     print(prevQuery)
-    for i in range(1,len(request.args)):
-        ids.append(request.args.get("f"+str(i)))
+    for i in range(1, len(request.args)):
+        ids.append(request.args.get("f" + str(i)))
         print(i)
-    
+
     unwanted_chars = ".,-&"
     wordfreq = {}
 
     for i in range(3):
         id = ids[i]
-        req = requests.get('http://localhost:9200/'+currentIndex+'/_doc/'+id, headers = headers)
+        req = requests.get('http://localhost:9200/' + currentIndex + '/_doc/' + id, headers=headers)
         js = json.loads(req.text)
         taxonomy = js["_source"]["taxonomy"]
         words = re.findall(r"[\w']+", taxonomy)
@@ -72,76 +79,77 @@ def refineSearch(currentIndex,filter):
         for raw_word in words:
             word = raw_word.strip(unwanted_chars)
             if word not in wordfreq:
-                wordfreq[word] = 0 
+                wordfreq[word] = 0
             wordfreq[word] += 1
 
     orderedDict = dict(sorted(wordfreq.items(), key=lambda item: item[1]))
     queryWords = []
-    for i in range(1,3):
+    for i in range(1, 3):
         queryWords.append(list(orderedDict.items())[-i][0])
-    
+
     newQuery = " ".join(queryWords)
     print(prevQuery + " " + newQuery)
 
     return getProductsFilter(currentIndex, filter, prevQuery, newQuery, 0, 10000)
 
-#example: filter/dresses/taxonomy/red/0/1000
+
+# example: filter/dresses/taxonomy/red/0/1000
 @app.route("/filter/<currentIndex>/<filter>/<text>/<boostedText>/<minPrice>/<maxPrice>")
 def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPrice):
+    print("entrei")
     results = {"products": []}
-    print("boostedtext "+boostedText)
+    print("boostedtext " + boostedText)
 
     if (text == "empty"):
         body = {
             "query": {
-                "range": 
-                {
-                            "price": {
-                                "gte": str(minPrice),
-                                "lte": str(maxPrice)
-                            }
-                }
+                "range":
+                    {
+                        "price": {
+                            "gte": str(minPrice),
+                            "lte": str(maxPrice)
+                        }
+                    }
             }
         }
     else:
         body = {
             "query": {
                 "bool": {
-                    "must":{
-                        "bool":{
+                    "must": {
+                        "bool": {
                             "should": [
-                            {
-                                "range": {
-                                    "price": {
-                                        "gte": str(minPrice),
-                                        "lte": str(maxPrice)
+                                {
+                                    "range": {
+                                        "price": {
+                                            "gte": str(minPrice),
+                                            "lte": str(maxPrice)
+                                        }
+                                    }
+                                },
+                                {
+                                    "match": {
+                                        str(filter): str(text)
                                     }
                                 }
-                            },
-                            {
-                                "match": {
-                                    str(filter) : str(text),
-                                    "boost": 2
-                                }
-                            },
-                            {
-                                "match": {
-                                    str(filter) : str(boostedText)
-                                }
-                            }
                             ]
                         }
                     }
                 }
             }
         }
-    
-    res = es.search(index= currentIndex, body=body)
+
+    res = es.search(index=currentIndex, body=body)
 
     for i in res["hits"]["hits"]:
         results["products"].append(i)
 
     return jsonify(results)
+
+
+@app.route("/search/dictionary")
+def dict():
+    return jsonify(dictionary)
 
 
 """
@@ -154,9 +162,11 @@ retorna um json com todas as palavras contidas no dicionário que se relacionam 
 esse conjunto de palavras e contenham um score acima de um valor
 """
 
+
 @app.route("/filter/searchBar/<search>")
-def sugested (search):
+def sugested(search):
     results = {"products": []}
+
 
 #     searchVector = search.split()
 
@@ -174,8 +184,10 @@ def sugested (search):
 Objetivo é ser utilizado para completar as pesquisas do
 utilizador, ou seja, autocomplition
 """
-@app.route("/filter/searchBar/aux/<search>")
-def autocomplition (search):
+
+
+@app.route("/filter/searchBar/aux/<search>", methods=['GET'])
+def autocomplition(search):
     results = {"products": []}
     size = len(search)
 
@@ -188,19 +200,24 @@ def autocomplition (search):
 
     return jsonify(results)
 
+
 """
 O autocorrection é utilizado no final da escrita de uma palavra e 
 caso esta não esteja present no dicionário, o sistema irá sugerir as
 5 palavras com melhor score presente no dicionário
 """
+
+
 @app.route("/filter/searchBar/correction/<search>")
-def autocorrection (string):
+def autocorrection(search):
     temp = []
     results = {"products": []}
 
-    if string not in dictionary:
+    print(search)
+
+    if search not in dictionary:
         for i in dictionary:
-            ratio = similar(string, i)
+            ratio = similar(search, i)
             if ratio > 0.5:
                 aux = [i, ratio]
                 temp.append(aux)
@@ -229,5 +246,6 @@ def testing():
 
     return jsonify(results)"""
 
+
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)

@@ -6,7 +6,8 @@ transformed = json.loads(file)
 dic = []
 
 def magic(word, dic):
-    temp = word.replace("/", " ").replace("(", " ").replace(")", " ")
+    word  = word.lower()
+    temp = word.replace("/", " ").replace("(", " ").replace(")", " ").replace("{", " ").replace("}", " ").replace(",", " ").replace(".", "")
     if word == temp:
         if word in dic:
             pass
