@@ -69,7 +69,7 @@ def refineSearch(currentIndex, filter):
     unwanted_chars = ".,-&"
     wordfreq = {}
 
-    for i in range(3):
+    for i in range(len(request.args)-1):
         id = ids[i]
         req = requests.get('http://localhost:9200/' + currentIndex + '/_doc/' + id, headers=headers)
         js = json.loads(req.text)
@@ -82,10 +82,12 @@ def refineSearch(currentIndex, filter):
                 wordfreq[word] = 0
             wordfreq[word] += 1
 
-    orderedDict = dict(sorted(wordfreq.items(), key=lambda item: item[1]))
+    dic = sorted(wordfreq.items(), key=lambda item: item[1])
+
+    # orderedDict = dict(sort)
     queryWords = []
     for i in range(1, 3):
-        queryWords.append(list(orderedDict.items())[-i][0])
+        queryWords.append(dic[-i][0])
 
     newQuery = " ".join(queryWords)
     print(prevQuery + " " + newQuery)
@@ -129,7 +131,7 @@ def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPric
                                 },
                                 {
                                     "match": {
-                                        str(filter): str(text)
+                                        str(filter): str(boostedText)
                                     }
                                 }
                             ]
