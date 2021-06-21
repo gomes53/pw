@@ -69,9 +69,11 @@ def refineSearch(currentIndex, filter):
     unwanted_chars = ".,-&"
     wordfreq = {}
 
-    for i in range(3):
+    for i in range(0,2):
         id = ids[i]
-        req = requests.get('http://localhost:9200/' + currentIndex + '/_doc/' + id, headers=headers)
+        url = 'http://localhost:9200/' + currentIndex + '/_doc/' + id
+        print(url)
+        req = requests.get(url, headers=headers)
         js = json.loads(req.text)
         taxonomy = js["_source"]["taxonomy"]
         words = re.findall(r"[\w']+", taxonomy)
@@ -90,7 +92,7 @@ def refineSearch(currentIndex, filter):
     newQuery = " ".join(queryWords)
     print(prevQuery + " " + newQuery)
 
-    return getProductsFilter(currentIndex, filter, prevQuery, newQuery, 0, 10000)
+    return getProductsFilter(currentIndex, filter, prevQuery, newQuery, 0, 100000)
 
 
 # example: filter/dresses/taxonomy/red/0/1000
@@ -98,7 +100,20 @@ def refineSearch(currentIndex, filter):
 def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPrice):
     print("entrei")
     results = {"products": []}
+
     print("boostedtext " + boostedText)
+    print("text " + text)
+
+    search = ''
+
+    if(boostedText == "empty"): 
+        search = text
+    else:
+        firstWord = boostedText.split(' ')[0]
+        remaining = boostedText.replace(firstWord, '')
+        search = firstWord + '^2' + remaining
+
+    print('Searching for: ' + search)    
 
     if (text == "empty"):
         body = {
@@ -129,7 +144,7 @@ def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPric
                                 },
                                 {
                                     "match": {
-                                        str(filter): str(text)
+                                        str(filter): str(search)
                                     }
                                 }
                             ]
@@ -148,7 +163,7 @@ def getProductsFilter(currentIndex, filter, text, boostedText, minPrice, maxPric
 
 
 @app.route("/search/dictionary")
-def dict():
+def dicti():
     return jsonify(dictionary)
 
 
